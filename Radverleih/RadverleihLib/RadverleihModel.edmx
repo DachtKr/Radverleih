@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="RadverleihModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="RadverleihModelTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="RadverleihModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="RadverleihModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kundes" EntityType="RadverleihModel.Kunde" />
+          <EntitySet Name="Fortbewegungsmittels" EntityType="RadverleihModel.Fortbewegungsmittel" />
+          <EntitySet Name="Modells" EntityType="RadverleihModel.Modell" />
+          <EntitySet Name="Ablages" EntityType="RadverleihModel.Ablage" />
+          <AssociationSet Name="KundeFortbewegungsmittel" Association="RadverleihModel.KundeFortbewegungsmittel">
+            <End Role="Kunde" EntitySet="Kundes" />
+            <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
+          </AssociationSet>
+          <AssociationSet Name="FortbewegungsmittelModell" Association="RadverleihModel.FortbewegungsmittelModell">
+            <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
+            <End Role="Modell" EntitySet="Modells" />
+          </AssociationSet>
+          <AssociationSet Name="FortbewegungsmittelAblage" Association="RadverleihModel.FortbewegungsmittelAblage">
+            <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
+            <End Role="Ablage" EntitySet="Ablages" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Kunde">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Vorname" Type="String" Nullable="false" />
+          <Property Name="Strasse" Type="String" Nullable="false" />
+          <Property Name="Stadt" Type="String" Nullable="false" />
+          <Property Name="Postleitzahl" Type="String" Nullable="false" />
+          <Property Name="eMail" Type="String" Nullable="false" />
+          <Property Name="Telefon" Type="String" Nullable="false" />
+          <NavigationProperty Name="Fortbewegungsmittels" Relationship="RadverleihModel.KundeFortbewegungsmittel" FromRole="Kunde" ToRole="Fortbewegungsmittel" />
+        </EntityType>
+        <EntityType Name="Fortbewegungsmittel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nummer" Type="String" Nullable="false" />
+          <Property Name="Alter" Type="Int32" Nullable="false" />
+          <Property Name="Rückgabedatum" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Kunde" Relationship="RadverleihModel.KundeFortbewegungsmittel" FromRole="Fortbewegungsmittel" ToRole="Kunde" />
+          <Property Name="KundeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Modell" Relationship="RadverleihModel.FortbewegungsmittelModell" FromRole="Fortbewegungsmittel" ToRole="Modell" />
+          <Property Name="ModellId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ablage" Relationship="RadverleihModel.FortbewegungsmittelAblage" FromRole="Fortbewegungsmittel" ToRole="Ablage" />
+          <Property Name="AblageId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Modell">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" Nullable="false" />
+          <Property Name="Beschreibung" Type="String" Nullable="false" />
+          <Property Name="Preis" Type="Decimal" Nullable="false" />
+          <Property Name="Größe" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Fortbewegungsmittels" Relationship="RadverleihModel.FortbewegungsmittelModell" FromRole="Modell" ToRole="Fortbewegungsmittel" />
+        </EntityType>
+        <EntityType Name="Ablage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" Nullable="false" />
+          <NavigationProperty Name="Fortbewegungsmittels" Relationship="RadverleihModel.FortbewegungsmittelAblage" FromRole="Ablage" ToRole="Fortbewegungsmittel" />
+        </EntityType>
+        <Association Name="KundeFortbewegungsmittel">
+          <End Type="RadverleihModel.Kunde" Role="Kunde" Multiplicity="1" />
+          <End Type="RadverleihModel.Fortbewegungsmittel" Role="Fortbewegungsmittel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kunde">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fortbewegungsmittel">
+              <PropertyRef Name="KundeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FortbewegungsmittelModell">
+          <End Type="RadverleihModel.Fortbewegungsmittel" Role="Fortbewegungsmittel" Multiplicity="*" />
+          <End Type="RadverleihModel.Modell" Role="Modell" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Modell">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fortbewegungsmittel">
+              <PropertyRef Name="ModellId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FortbewegungsmittelAblage">
+          <End Type="RadverleihModel.Fortbewegungsmittel" Role="Fortbewegungsmittel" Multiplicity="*" />
+          <End Type="RadverleihModel.Ablage" Role="Ablage" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Ablage">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fortbewegungsmittel">
+              <PropertyRef Name="AblageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="RadverleihModel" />
+        <Alias Key="Target" Value="RadverleihModel.Store" />
+        <EntityContainerMapping CdmEntityContainer="RadverleihModelContainer" StorageEntityContainer="RadverleihModelTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
