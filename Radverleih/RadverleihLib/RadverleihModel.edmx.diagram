@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5934d7352bc74326a4555c5ba49a85ab" Name="Diagram1" >
-        <EntityTypeShape EntityType="RadverleihModel.Kunde" Width="1.5" PointX="2.25" PointY="1.125" />
+        <EntityTypeShape EntityType="RadverleihModel.Kunde" Width="1.5" PointX="2" PointY="1" />
         <EntityTypeShape EntityType="RadverleihModel.Fortbewegungsmittel" Width="1.5" PointX="4.875" PointY="0.875" />
         <EntityTypeShape EntityType="RadverleihModel.Modell" Width="1.5" PointX="7.5" PointY="1.25" />
         <EntityTypeShape EntityType="RadverleihModel.Ablage" Width="1.5" PointX="4.875" PointY="4.375" />

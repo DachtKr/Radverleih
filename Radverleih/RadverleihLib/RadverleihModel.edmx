@@ -4,11 +4,104 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="RadverleihModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
-        <EntityContainer Name="RadverleihModelTargetContainer" >
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="RadverleihModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="RadverleihModelStoreContainer">
+    <EntitySet Name="Kundes" EntityType="RadverleihModel.Store.Kundes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Fortbewegungsmittels" EntityType="RadverleihModel.Store.Fortbewegungsmittels" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Modells" EntityType="RadverleihModel.Store.Modells" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Ablages" EntityType="RadverleihModel.Store.Ablages" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="KundeFortbewegungsmittel" Association="RadverleihModel.Store.KundeFortbewegungsmittel">
+      <End Role="Kunde" EntitySet="Kundes" />
+      <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
+    </AssociationSet>
+    <AssociationSet Name="FortbewegungsmittelModell" Association="RadverleihModel.Store.FortbewegungsmittelModell">
+      <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
+      <End Role="Modell" EntitySet="Modells" />
+    </AssociationSet>
+    <AssociationSet Name="FortbewegungsmittelAblage" Association="RadverleihModel.Store.FortbewegungsmittelAblage">
+      <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
+      <End Role="Ablage" EntitySet="Ablages" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Kundes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Vorname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Strasse" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Stadt" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Postleitzahl" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="eMail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Telefon" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Fortbewegungsmittels">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nummer" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Alter" Type="int" Nullable="false" />
+    <Property Name="Rückgabedatum" Type="datetime" Nullable="false" />
+    <Property Name="KundeId" Type="int" Nullable="false" />
+    <Property Name="ModellId" Type="int" Nullable="false" />
+    <Property Name="AblageId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Modells">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Beschreibung" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Preis" Type="decimal" Nullable="false" />
+    <Property Name="Größe" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ablages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="KundeFortbewegungsmittel">
+    <End Role="Kunde" Type="RadverleihModel.Store.Kundes" Multiplicity="1" />
+    <End Role="Fortbewegungsmittel" Type="RadverleihModel.Store.Fortbewegungsmittels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kunde">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Fortbewegungsmittel">
+        <PropertyRef Name="KundeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FortbewegungsmittelModell">
+    <End Role="Fortbewegungsmittel" Type="RadverleihModel.Store.Fortbewegungsmittels" Multiplicity="*" />
+    <End Role="Modell" Type="RadverleihModel.Store.Modells" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Modell">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Fortbewegungsmittel">
+        <PropertyRef Name="ModellId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FortbewegungsmittelAblage">
+    <End Role="Fortbewegungsmittel" Type="RadverleihModel.Store.Fortbewegungsmittels" Multiplicity="*" />
+    <End Role="Ablage" Type="RadverleihModel.Store.Ablages" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Ablage">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Fortbewegungsmittel">
+        <PropertyRef Name="AblageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="RadverleihModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -118,13 +211,56 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
-        <Alias Key="Model" Value="RadverleihModel" />
-        <Alias Key="Target" Value="RadverleihModel.Store" />
-        <EntityContainerMapping CdmEntityContainer="RadverleihModelContainer" StorageEntityContainer="RadverleihModelTargetContainer">
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="RadverleihModelStoreContainer" CdmEntityContainer="RadverleihModelContainer">
+    <EntitySetMapping Name="Kundes">
+      <EntityTypeMapping TypeName="IsTypeOf(RadverleihModel.Kunde)">
+        <MappingFragment StoreEntitySet="Kundes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Vorname" ColumnName="Vorname" />
+          <ScalarProperty Name="Strasse" ColumnName="Strasse" />
+          <ScalarProperty Name="Stadt" ColumnName="Stadt" />
+          <ScalarProperty Name="Postleitzahl" ColumnName="Postleitzahl" />
+          <ScalarProperty Name="eMail" ColumnName="eMail" />
+          <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Fortbewegungsmittels">
+      <EntityTypeMapping TypeName="IsTypeOf(RadverleihModel.Fortbewegungsmittel)">
+        <MappingFragment StoreEntitySet="Fortbewegungsmittels">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nummer" ColumnName="Nummer" />
+          <ScalarProperty Name="Alter" ColumnName="Alter" />
+          <ScalarProperty Name="Rückgabedatum" ColumnName="Rückgabedatum" />
+          <ScalarProperty Name="KundeId" ColumnName="KundeId" />
+          <ScalarProperty Name="ModellId" ColumnName="ModellId" />
+          <ScalarProperty Name="AblageId" ColumnName="AblageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Modells">
+      <EntityTypeMapping TypeName="IsTypeOf(RadverleihModel.Modell)">
+        <MappingFragment StoreEntitySet="Modells">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+          <ScalarProperty Name="Beschreibung" ColumnName="Beschreibung" />
+          <ScalarProperty Name="Preis" ColumnName="Preis" />
+          <ScalarProperty Name="Größe" ColumnName="Größe" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ablages">
+      <EntityTypeMapping TypeName="IsTypeOf(RadverleihModel.Ablage)">
+        <MappingFragment StoreEntitySet="Ablages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Bezeichnung" ColumnName="Bezeichnung" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -138,6 +274,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
