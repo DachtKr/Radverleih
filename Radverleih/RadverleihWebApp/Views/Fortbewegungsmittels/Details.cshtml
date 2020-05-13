@@ -1,0 +1,66 @@
+﻿@model RadverleihLib.Fortbewegungsmittel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Fortbewegungsmittel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nummer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nummer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Alter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alter)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rückgabedatum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rückgabedatum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kunde.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kunde.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modell.Bezeichnung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modell.Bezeichnung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ablage.Bezeichnung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ablage.Bezeichnung)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

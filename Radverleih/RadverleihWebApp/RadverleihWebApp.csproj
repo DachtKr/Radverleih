@@ -127,7 +127,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AblagesController.cs" />
+    <Compile Include="Controllers\FortbewegungsmittelsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KundesController.cs" />
+    <Compile Include="Controllers\ModellsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -169,6 +173,26 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Kundes\Create.cshtml" />
+    <Content Include="Views\Kundes\Delete.cshtml" />
+    <Content Include="Views\Kundes\Details.cshtml" />
+    <Content Include="Views\Kundes\Edit.cshtml" />
+    <Content Include="Views\Kundes\Index.cshtml" />
+    <Content Include="Views\Fortbewegungsmittels\Create.cshtml" />
+    <Content Include="Views\Fortbewegungsmittels\Delete.cshtml" />
+    <Content Include="Views\Fortbewegungsmittels\Details.cshtml" />
+    <Content Include="Views\Fortbewegungsmittels\Edit.cshtml" />
+    <Content Include="Views\Fortbewegungsmittels\Index.cshtml" />
+    <Content Include="Views\Modells\Create.cshtml" />
+    <Content Include="Views\Modells\Delete.cshtml" />
+    <Content Include="Views\Modells\Details.cshtml" />
+    <Content Include="Views\Modells\Edit.cshtml" />
+    <Content Include="Views\Modells\Index.cshtml" />
+    <Content Include="Views\Ablages\Create.cshtml" />
+    <Content Include="Views\Ablages\Delete.cshtml" />
+    <Content Include="Views\Ablages\Details.cshtml" />
+    <Content Include="Views\Ablages\Edit.cshtml" />
+    <Content Include="Views\Ablages\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
