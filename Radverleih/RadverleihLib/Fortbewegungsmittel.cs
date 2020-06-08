@@ -18,12 +18,12 @@ namespace RadverleihLib
         public string Nummer { get; set; }
         public int Alter { get; set; }
         public System.DateTime Rückgabedatum { get; set; }
-        public int KundeId { get; set; }
         public int ModellId { get; set; }
         public Nullable<int> AblageId { get; set; }
+        public Nullable<int> KundeId { get; set; }
     
-        public virtual Kunde Kunde { get; set; }
         public virtual Modell Modell { get; set; }
         public virtual Ablage Ablage { get; set; }
+        public virtual Kunde Kunde { get; set; }
     }
 }

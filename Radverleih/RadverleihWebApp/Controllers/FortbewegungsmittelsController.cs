@@ -39,9 +39,13 @@ namespace RadverleihWebApp.Controllers
         // GET: Fortbewegungsmittels/Create
         public ActionResult Create()
         {
-            ViewBag.KundeId = new SelectList(db.Kundes, "Id", "Name");
+            ViewBag.KundeId = new[] {new SelectListItem()
+            {Text = "-- kein Kunde --", Value = ""}}.Union(
+                new SelectList(db.Kundes, "Id", "Name"));
             ViewBag.ModellId = new SelectList(db.Modells, "Id", "Bezeichnung");
-            ViewBag.AblageId = new SelectList(db.Ablages, "Id", "Bezeichnung");
+            ViewBag.AblageId = new[] {new SelectListItem()
+            {Text = "-- kein Ablageort --", Value = ""}}.Union(
+                new SelectList(db.Ablages, "Id", "Bezeichnung"));
             return View();
         }
 

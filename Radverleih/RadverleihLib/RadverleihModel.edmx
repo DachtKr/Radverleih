@@ -10,10 +10,6 @@
     <EntitySet Name="Fortbewegungsmittels" EntityType="RadverleihModel.Store.Fortbewegungsmittels" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Modells" EntityType="RadverleihModel.Store.Modells" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Ablages" EntityType="RadverleihModel.Store.Ablages" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="KundeFortbewegungsmittel" Association="RadverleihModel.Store.KundeFortbewegungsmittel">
-      <End Role="Kunde" EntitySet="Kundes" />
-      <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
-    </AssociationSet>
     <AssociationSet Name="FortbewegungsmittelModell" Association="RadverleihModel.Store.FortbewegungsmittelModell">
       <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
       <End Role="Modell" EntitySet="Modells" />
@@ -21,6 +17,10 @@
     <AssociationSet Name="FortbewegungsmittelAblage" Association="RadverleihModel.Store.FortbewegungsmittelAblage">
       <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
       <End Role="Ablage" EntitySet="Ablages" />
+    </AssociationSet>
+    <AssociationSet Name="KundeFortbewegungsmittel" Association="RadverleihModel.Store.KundeFortbewegungsmittel">
+      <End Role="Kunde" EntitySet="Kundes" />
+      <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Kundes">
@@ -44,9 +44,9 @@
     <Property Name="Nummer" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Alter" Type="int" Nullable="false" />
     <Property Name="Rückgabedatum" Type="datetime" Nullable="false" />
-    <Property Name="KundeId" Type="int" Nullable="false" />
     <Property Name="ModellId" Type="int" Nullable="false" />
     <Property Name="AblageId" Type="int" Nullable="true" />
+    <Property Name="KundeId" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Modells">
     <Key>
@@ -65,18 +65,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Bezeichnung" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <Association Name="KundeFortbewegungsmittel">
-    <End Role="Kunde" Type="RadverleihModel.Store.Kundes" Multiplicity="1" />
-    <End Role="Fortbewegungsmittel" Type="RadverleihModel.Store.Fortbewegungsmittels" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Kunde">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Fortbewegungsmittel">
-        <PropertyRef Name="KundeId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FortbewegungsmittelModell">
     <End Role="Fortbewegungsmittel" Type="RadverleihModel.Store.Fortbewegungsmittels" Multiplicity="*" />
     <End Role="Modell" Type="RadverleihModel.Store.Modells" Multiplicity="1" />
@@ -101,6 +89,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="KundeFortbewegungsmittel">
+    <End Role="Kunde" Type="RadverleihModel.Store.Kundes" Multiplicity="0..1" />
+    <End Role="Fortbewegungsmittel" Type="RadverleihModel.Store.Fortbewegungsmittels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kunde">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Fortbewegungsmittel">
+        <PropertyRef Name="KundeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -110,10 +110,6 @@
           <EntitySet Name="Fortbewegungsmittels" EntityType="RadverleihModel.Fortbewegungsmittel" />
           <EntitySet Name="Modells" EntityType="RadverleihModel.Modell" />
           <EntitySet Name="Ablages" EntityType="RadverleihModel.Ablage" />
-          <AssociationSet Name="KundeFortbewegungsmittel" Association="RadverleihModel.KundeFortbewegungsmittel">
-            <End Role="Kunde" EntitySet="Kundes" />
-            <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
-          </AssociationSet>
           <AssociationSet Name="FortbewegungsmittelModell" Association="RadverleihModel.FortbewegungsmittelModell">
             <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
             <End Role="Modell" EntitySet="Modells" />
@@ -121,6 +117,10 @@
           <AssociationSet Name="FortbewegungsmittelAblage" Association="RadverleihModel.FortbewegungsmittelAblage">
             <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
             <End Role="Ablage" EntitySet="Ablages" />
+          </AssociationSet>
+          <AssociationSet Name="KundeFortbewegungsmittel" Association="RadverleihModel.KundeFortbewegungsmittel">
+            <End Role="Kunde" EntitySet="Kundes" />
+            <End Role="Fortbewegungsmittel" EntitySet="Fortbewegungsmittels" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Kunde">
@@ -145,12 +145,12 @@
           <Property Name="Nummer" Type="String" Nullable="false" />
           <Property Name="Alter" Type="Int32" Nullable="false" />
           <Property Name="Rückgabedatum" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="Kunde" Relationship="RadverleihModel.KundeFortbewegungsmittel" FromRole="Fortbewegungsmittel" ToRole="Kunde" />
-          <Property Name="KundeId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Modell" Relationship="RadverleihModel.FortbewegungsmittelModell" FromRole="Fortbewegungsmittel" ToRole="Modell" />
           <Property Name="ModellId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Ablage" Relationship="RadverleihModel.FortbewegungsmittelAblage" FromRole="Fortbewegungsmittel" ToRole="Ablage" />
           <Property Name="AblageId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Kunde" Relationship="RadverleihModel.KundeFortbewegungsmittel" FromRole="Fortbewegungsmittel" ToRole="Kunde" />
+          <Property Name="KundeId" Type="Int32" Nullable="true" />
         </EntityType>
         <EntityType Name="Modell">
           <Key>
@@ -171,18 +171,6 @@
           <Property Name="Bezeichnung" Type="String" Nullable="false" />
           <NavigationProperty Name="Fortbewegungsmittels" Relationship="RadverleihModel.FortbewegungsmittelAblage" FromRole="Ablage" ToRole="Fortbewegungsmittel" />
         </EntityType>
-        <Association Name="KundeFortbewegungsmittel">
-          <End Type="RadverleihModel.Kunde" Role="Kunde" Multiplicity="1" />
-          <End Type="RadverleihModel.Fortbewegungsmittel" Role="Fortbewegungsmittel" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Kunde">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Fortbewegungsmittel">
-              <PropertyRef Name="KundeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FortbewegungsmittelModell">
           <End Type="RadverleihModel.Fortbewegungsmittel" Role="Fortbewegungsmittel" Multiplicity="*" />
           <End Type="RadverleihModel.Modell" Role="Modell" Multiplicity="1" />
@@ -204,6 +192,18 @@
             </Principal>
             <Dependent Role="Fortbewegungsmittel">
               <PropertyRef Name="AblageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="KundeFortbewegungsmittel">
+          <End Type="RadverleihModel.Kunde" Role="Kunde" Multiplicity="0..1" />
+          <End Type="RadverleihModel.Fortbewegungsmittel" Role="Fortbewegungsmittel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kunde">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fortbewegungsmittel">
+              <PropertyRef Name="KundeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -234,9 +234,9 @@
           <ScalarProperty Name="Nummer" ColumnName="Nummer" />
           <ScalarProperty Name="Alter" ColumnName="Alter" />
           <ScalarProperty Name="Rückgabedatum" ColumnName="Rückgabedatum" />
-          <ScalarProperty Name="KundeId" ColumnName="KundeId" />
           <ScalarProperty Name="ModellId" ColumnName="ModellId" />
           <ScalarProperty Name="AblageId" ColumnName="AblageId" />
+          <ScalarProperty Name="KundeId" ColumnName="KundeId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

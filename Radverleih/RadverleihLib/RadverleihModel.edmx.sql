@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/29/2020 12:34:25
+-- Date Created: 06/05/2020 17:06:24
 -- Generated from EDMX file: C:\Users\I2CM Developer\Source\Repos\Radverleih\Radverleih\RadverleihLib\RadverleihModel.edmx
 -- --------------------------------------------------
 
@@ -17,11 +17,32 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_KundeFortbewegungsmittel]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Fortbewegungsmittels] DROP CONSTRAINT [FK_KundeFortbewegungsmittel];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FortbewegungsmittelModell]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Fortbewegungsmittels] DROP CONSTRAINT [FK_FortbewegungsmittelModell];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FortbewegungsmittelAblage]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Fortbewegungsmittels] DROP CONSTRAINT [FK_FortbewegungsmittelAblage];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[Kundes]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Kundes];
+GO
+IF OBJECT_ID(N'[dbo].[Fortbewegungsmittels]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Fortbewegungsmittels];
+GO
+IF OBJECT_ID(N'[dbo].[Modells]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Modells];
+GO
+IF OBJECT_ID(N'[dbo].[Ablages]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Ablages];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -46,9 +67,9 @@ CREATE TABLE [dbo].[Fortbewegungsmittels] (
     [Nummer] nvarchar(max)  NOT NULL,
     [Alter] int  NOT NULL,
     [Rückgabedatum] datetime  NOT NULL,
-    [KundeId] int  NOT NULL,
     [ModellId] int  NOT NULL,
-    [AblageId] int  NULL
+    [AblageId] int  NULL,
+    [KundeId] int  NULL
 );
 GO
 
@@ -101,21 +122,6 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [KundeId] in table 'Fortbewegungsmittels'
-ALTER TABLE [dbo].[Fortbewegungsmittels]
-ADD CONSTRAINT [FK_KundeFortbewegungsmittel]
-    FOREIGN KEY ([KundeId])
-    REFERENCES [dbo].[Kundes]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_KundeFortbewegungsmittel'
-CREATE INDEX [IX_FK_KundeFortbewegungsmittel]
-ON [dbo].[Fortbewegungsmittels]
-    ([KundeId]);
-GO
-
 -- Creating foreign key on [ModellId] in table 'Fortbewegungsmittels'
 ALTER TABLE [dbo].[Fortbewegungsmittels]
 ADD CONSTRAINT [FK_FortbewegungsmittelModell]
@@ -144,6 +150,21 @@ GO
 CREATE INDEX [IX_FK_FortbewegungsmittelAblage]
 ON [dbo].[Fortbewegungsmittels]
     ([AblageId]);
+GO
+
+-- Creating foreign key on [KundeId] in table 'Fortbewegungsmittels'
+ALTER TABLE [dbo].[Fortbewegungsmittels]
+ADD CONSTRAINT [FK_KundeFortbewegungsmittel]
+    FOREIGN KEY ([KundeId])
+    REFERENCES [dbo].[Kundes]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_KundeFortbewegungsmittel'
+CREATE INDEX [IX_FK_KundeFortbewegungsmittel]
+ON [dbo].[Fortbewegungsmittels]
+    ([KundeId]);
 GO
 
 -- --------------------------------------------------
