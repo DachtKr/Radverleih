@@ -22,6 +22,7 @@ namespace RadverleihWebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Kunde kunde = db.Kundes.Find(kundeId);
+
             if (kunde == null)
             {
                 return HttpNotFound();
@@ -31,6 +32,7 @@ namespace RadverleihWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Fortbewegungsmittel fortbewegungsmittel = db.Fortbewegungsmittels.Find(fzgId);
             if (fortbewegungsmittel == null)
             {
@@ -38,6 +40,7 @@ namespace RadverleihWebApp.Controllers
             }
             fortbewegungsmittel.Kunde = kunde;
             db.SaveChanges();
+
             return RedirectToAction("Index", "Fortbewegungsmittels"); 
         }
 
