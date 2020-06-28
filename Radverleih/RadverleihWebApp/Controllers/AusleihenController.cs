@@ -21,7 +21,7 @@ namespace RadverleihWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Kunde kunde = db.Kundes.Find(kundeId);
+            Kunde kunde = db.Kundes.Find(kundeId);//ID des ausgewählten Kunden merken
 
             if (kunde == null)
             {
@@ -32,13 +32,19 @@ namespace RadverleihWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
             Fortbewegungsmittel fortbewegungsmittel = db.Fortbewegungsmittels.Find(fzgId);
+                                               //ID des ausgewählten Fortbewegungsmittels merken 
             if (fortbewegungsmittel == null)
             {
                 return HttpNotFound();
             }
-            fortbewegungsmittel.Kunde = kunde;
+
+            fortbewegungsmittel.Kunde = kunde; //Gespeicherten Kundennamen zum Fortbewegungsmittel hinzufügen
+
+            int? ablageId = 4;                 //Ablageort "Kunde" hinzufügen 
+            Ablage ablage = db.Ablages.Find(ablageId);
+            fortbewegungsmittel.Ablage = ablage;
+
             db.SaveChanges();
 
             return RedirectToAction("Index", "Fortbewegungsmittels"); 
@@ -57,9 +63,49 @@ namespace RadverleihWebApp.Controllers
                 return HttpNotFound();
             }
             ViewBag.fortbewegungsmittel = fortbewegungsmittel;
-            return View(db.Kundes.ToList());
-           
+            return View(db.Kundes.ToList());  
         }
+
+        public ActionResult Zurueckgeben (int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Fortbewegungsmittel fortbewegungsmittel = db.Fortbewegungsmittels.Find(id);
+            if (fortbewegungsmittel == null)
+            {
+                return HttpNotFound();
+            }
+            int? kundeId = fortbewegungsmittel.Kunde.Id;
+            fortbewegungsmittel.Kunde.Fortbewegungsmittels.Remove(fortbewegungsmittel);
+            fortbewegungsmittel.Kunde = null;
+            // fortbewegungsmittel.Ablage.Fortbewegungsmittels.Remove(fortbewegungsmittel); //Ablageort entfernen (neu hinzugefügt)
+
+            int? ablageId = 5;                            //Ablageort Shop hinzufügen (neu hinzugefügt)
+            Ablage ablage = db.Ablages.Find(ablageId);
+            fortbewegungsmittel.Ablage = ablage;
+
+            db.SaveChanges();
+            return RedirectToAction("Rückgabe", "Ausleihen", new { id = kundeId });
+        }
+
+
+        public ActionResult Rückgabe (int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Kunde kunde = db.Kundes.Find(id);
+            if (kunde == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.kunde = kunde;
+            return View(kunde.Fortbewegungsmittels.ToList());      
+        }
+
     }
 }
 

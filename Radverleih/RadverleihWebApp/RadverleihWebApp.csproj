@@ -202,6 +202,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Ausleihen\Index.cshtml" />
     <Content Include="Views\Ausleihen\Leihen.cshtml" />
+    <Content Include="Views\Ausleihen\Rückgabe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

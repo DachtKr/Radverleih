@@ -81,9 +81,13 @@ namespace RadverleihWebApp.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.KundeId = new SelectList(db.Kundes, "Id", "Name", fortbewegungsmittel.KundeId);
+            ViewBag.KundeId = new[] {new SelectListItem()
+            {Text = "-- kein Kunde --", Value = ""}}.Union(
+               new SelectList(db.Kundes, "Id", "Name", fortbewegungsmittel.KundeId));
             ViewBag.ModellId = new SelectList(db.Modells, "Id", "Bezeichnung", fortbewegungsmittel.ModellId);
-            ViewBag.AblageId = new SelectList(db.Ablages, "Id", "Bezeichnung", fortbewegungsmittel.AblageId);
+            ViewBag.AblageId = new[] {new SelectListItem()
+            {Text = "-- kein Ablageort --", Value = ""}}.Union(
+                new SelectList(db.Ablages, "Id", "Bezeichnung", fortbewegungsmittel.AblageId));
             return View(fortbewegungsmittel);
         }
 
