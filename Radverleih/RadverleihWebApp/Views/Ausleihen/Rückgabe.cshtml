@@ -4,11 +4,9 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+    <h2>Fahrzeugrückgabe</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
@@ -34,29 +32,32 @@
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Nummer)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Kunde.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Alter)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Rückgabedatum)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Modell.Bezeichnung)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Ablage.Bezeichnung)
-    </td>
-    <td>
-        @Html.ActionLink("Auswählen", "Zurueckgeben", new {id = item.Id })
-    </td>
-</tr> 
-     }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nummer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kunde.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rückgabedatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modell.Bezeichnung)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ablage.Bezeichnung)
+            </td>
+            <td>
+                @Html.ActionLink("Auswählen", "Zurueckgeben", new { id = item.Id })
+            </td>
+        </tr>
 
+    }
 </table>
+<div>
+    @Html.ActionLink("Zurück zur Liste", "Index", "Kundes")
+</div>

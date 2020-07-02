@@ -26,5 +26,10 @@ namespace RadverleihWebApp.Controllers
 
             return View();
         }
+
+        public ActionResult StartSeite()
+        {
+            return View();
+        }
     }
 }

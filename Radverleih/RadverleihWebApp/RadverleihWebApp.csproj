@@ -203,6 +203,7 @@
     <Content Include="Views\Ausleihen\Index.cshtml" />
     <Content Include="Views\Ausleihen\Leihen.cshtml" />
     <Content Include="Views\Ausleihen\Rückgabe.cshtml" />
+    <Content Include="Views\Home\StartSeite.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

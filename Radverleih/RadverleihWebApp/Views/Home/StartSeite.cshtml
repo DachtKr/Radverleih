@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Herzlich Willkommen</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Meine Kunden</h2>
+        <p>
+            Hier kannst Du all Deine Kunden ansehen, neue anlegen, sowie alte bearbeiten oder löschen. 
+            Außerdem kannst Du die Rückgabe einzelner Fahrzeuge verbuchen.
+        </p>
+        <p><a class="btn btn-default" @Html.ActionLink("Kunden anzeigen", "Index", "Kundes")</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Meine Fahrzeuge</h2>
+        <p>
+            Hier kannst Du all Deine Fahrzeuge ansehen, neue anlegen, sowie alte bearbeiten oder löschen.
+            Außerdem kannst Du den Verleih einzelner Fahrzeuge verbuchen
+        </p>
+        <p><a class="btn btn-default" @Html.ActionLink("Fahrzeuge anzeigen", "Index", "Fortbewegungsmittels")</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Meine Modelle</h2>
+        <p>Hier kannst Du all Deine Fortbewegungsmittel ansehen, neue anlegen, sowie alte bearbeiten oder löschen.</p>
+        <p><a class="btn btn-default" @Html.ActionLink("Modelle anzeigen", "Index", "Modells")</a></p>
+    </div>
+</div>
